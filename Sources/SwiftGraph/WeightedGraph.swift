@@ -17,20 +17,18 @@
 //  limitations under the License.
 
 /// An implementation of Graph that has convenience methods for adding and removing WeightedEdges. All added Edges should have the same generic Comparable type W as the WeightedGraph itself.
-open class WeightedGraph<V: Equatable & Codable, W: Equatable & Codable>: Graph {
-    
-    public var vertices: [V] = [V]()
-    public var edges: [[WeightedEdge<W>]] = [[WeightedEdge<W>]]() //adjacency lists
-    
-    public init() {
-    }
-    
-    required public init(vertices: [V]) {
+open class WeightedGraph<V: Equatable, W: Equatable>: Graph {
+    public var vertices: [V] = .init()
+    public var edges: [[WeightedEdge<W>]] = .init() // adjacency lists
+
+    public init() {}
+
+    public required init(vertices: [V]) {
         for vertex in vertices {
-            _ = self.addVertex(vertex)
+            _ = addVertex(vertex)
         }
     }
-    
+
     /// Add an edge to the graph.
     ///
     /// - parameter e: The edge to add.
@@ -43,7 +41,7 @@ open class WeightedGraph<V: Equatable & Codable, W: Equatable & Codable>: Graph 
             edges[e.v].append(e.reversed())
         }
     }
-    
+
     /// Add a vertex to the graph.
     ///
     /// - parameter v: The vertex to be added.
@@ -55,38 +53,38 @@ open class WeightedGraph<V: Equatable & Codable, W: Equatable & Codable>: Graph 
     }
 }
 
-extension Graph where E: WeightedEdgeProtocol {
-    public typealias W = E.Weight
+public extension Graph where E: WeightedEdgeProtocol {
+    typealias W = E.Weight
 
     /// Find all of the neighbors of a vertex at a given index.
     ///
     /// - parameter index: The index for the vertex to find the neighbors of.
     /// - returns: An array of tuples including the vertices as the first element and the weights as the second element.
-    public func neighborsForIndexWithWeights(_ index: Int) -> [(V, W)] {
-        var distanceTuples: [(V, W)] = [(V, W)]();
+    func neighborsForIndexWithWeights(_ index: Int) -> [(V, W)] {
+        var distanceTuples = [(V, W)]()
         for edge in edges[index] {
             distanceTuples += [(vertices[edge.v], edge.weight)]
         }
-        return distanceTuples;
+        return distanceTuples
     }
-    
+
     /// This is a convenience method that adds a weighted edge.
     ///
     /// - parameter from: The starting vertex's index.
     /// - parameter to: The ending vertex's index.
     /// - parameter directed: Is the edge directed? (default false)
     /// - parameter weight: the Weight of the edge to add.
-    public func addEdge(fromIndex: Int, toIndex: Int, weight: W, directed: Bool = false) {
+    func addEdge(fromIndex: Int, toIndex: Int, weight: W, directed: Bool = false) {
         addEdge(E(u: fromIndex, v: toIndex, directed: directed, weight: weight), directed: directed)
     }
-    
+
     /// This is a convenience method that adds a weighted edge between the first occurence of two vertices. It takes O(n) time.
     ///
     /// - parameter from: The starting vertex.
     /// - parameter to: The ending vertex.
     /// - parameter directed: Is the edge directed? (default false)
     /// - parameter weight: the Weight of the edge to add.
-    public func addEdge(from: V, to: V, weight: W, directed: Bool = false) {
+    func addEdge(from: V, to: V, weight: W, directed: Bool = false) {
         if let u = indexOfVertex(from), let v = indexOfVertex(to) {
             addEdge(fromIndex: u, toIndex: v, weight: weight, directed: directed)
         }
@@ -97,7 +95,7 @@ extension Graph where E: WeightedEdgeProtocol {
     /// - parameter from: The index of the starting vertex of the edge.
     /// - parameter to: The index of the ending vertex of the edge.
     /// - returns: True if there is an edge from the starting vertex to the ending vertex.
-    public func edgeExists(fromIndex: Int, toIndex: Int, withWeight weight: W) -> Bool {
+    func edgeExists(fromIndex: Int, toIndex: Int, withWeight weight: W) -> Bool {
         // The directed property of this fake edge is ignored, since it's not taken into account
         // for equality.
         return edgeExists(E(u: fromIndex, v: toIndex, directed: true, weight: weight))
@@ -111,7 +109,7 @@ extension Graph where E: WeightedEdgeProtocol {
     /// - parameter from: The starting vertex of the edge.
     /// - parameter to: The ending vertex of the edge.
     /// - returns: True if there is an edge from the starting vertex to the ending vertex.
-    public func edgeExists(from: V, to: V, withWeight weight: W) -> Bool {
+    func edgeExists(from: V, to: V, withWeight weight: W) -> Bool {
         if let u = indexOfVertex(from) {
             if let v = indexOfVertex(to) {
                 return edgeExists(fromIndex: u, toIndex: v, withWeight: weight)
@@ -125,8 +123,8 @@ extension Graph where E: WeightedEdgeProtocol {
     /// - parameter from: The index of the starting vertex of the edge.
     /// - parameter to: The index of the ending vertex of the edge.
     /// - returns: True if there is an edge from the starting vertex to the ending vertex.
-    public func edgeExists(fromIndex: Int, toIndex: Int) -> Bool {
-        return edges[fromIndex].map({$0.v}).contains(toIndex)
+    func edgeExists(fromIndex: Int, toIndex: Int) -> Bool {
+        return edges[fromIndex].map { $0.v }.contains(toIndex)
     }
 
     /// Check whether there is an edge from one vertex to another vertex.
@@ -137,7 +135,7 @@ extension Graph where E: WeightedEdgeProtocol {
     /// - parameter from: The starting vertex of the edge.
     /// - parameter to: The ending vertex of the edge.
     /// - returns: True if there is an edge from the starting vertex to the ending vertex.
-    public func edgeExists(from: V, to: V) -> Bool {
+    func edgeExists(from: V, to: V) -> Bool {
         if let u = indexOfVertex(from) {
             if let v = indexOfVertex(to) {
                 return edgeExists(fromIndex: u, toIndex: v)
@@ -152,7 +150,7 @@ extension Graph where E: WeightedEdgeProtocol {
     ///   - from: The starting vertex index
     ///   - to: The ending vertex index
     /// - Returns: An array with all the weights associated to edges between the provided indexes.
-    public func weights(from: Int, to: Int) -> [W] {
+    func weights(from: Int, to: Int) -> [W] {
         return edges[from].filter { $0.v == to }.map { $0.weight }
     }
 
@@ -162,7 +160,7 @@ extension Graph where E: WeightedEdgeProtocol {
     ///   - from: The starting vertex
     ///   - to: The ending vertex
     /// - Returns: An array with all the weights associated to edges between the provided vertices.
-    public func weights(from: V, to: V) -> [W] {
+    func weights(from: V, to: V) -> [W] {
         if let u = indexOfVertex(from), let v = indexOfVertex(to) {
             return edges[u].filter { $0.v == v }.map { $0.weight }
         }
@@ -170,9 +168,9 @@ extension Graph where E: WeightedEdgeProtocol {
     }
 
     // Implement Printable protocol
-    public var description: String {
-        var d: String = ""
-        for i in 0..<vertices.count {
+    var description: String {
+        var d = ""
+        for i in 0 ..< vertices.count {
             d += "\(vertices[i]) -> \(neighborsForIndexWithWeights(i))\n"
         }
         return d

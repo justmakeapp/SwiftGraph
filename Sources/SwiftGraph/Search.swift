@@ -19,8 +19,8 @@
 /// Functions for searching a graph & utility functions for supporting them
 
 // MARK: Depth-First Search and Breadth-First Search Extensions to `Graph`
-public extension Graph {
 
+public extension Graph {
     /// Perform a computation over the graph visiting the vertices using a
     /// depth-first algorithm.
     ///
@@ -39,12 +39,12 @@ public extension Graph {
     func dfs(fromIndex initalVertexIndex: Int,
              goalTest: (Int) -> Bool,
              visitOrder: ([E]) -> [E],
-             reducer: (E) -> Bool) -> Int? {
-
+             reducer: (E) -> Bool) -> Int?
+    {
         if goalTest(initalVertexIndex) {
             return initalVertexIndex
         }
-        var visited: [Bool] = [Bool](repeating: false, count: vertexCount)
+        var visited = [Bool](repeating: false, count: vertexCount)
         let container = Stack<E>()
 
         visited[initalVertexIndex] = true
@@ -96,8 +96,8 @@ public extension Graph {
     func traverseDfs(fromIndex initalVertexIndex: Int,
                      goalTest: (Int) -> Bool,
                      visitOrder: ([E]) -> [E],
-                     reducer: (E) -> Bool) -> Int? {
-        
+                     reducer: (E) -> Bool) -> Int?
+    {
         if goalTest(initalVertexIndex) {
             return initalVertexIndex
         }
@@ -132,13 +132,13 @@ public extension Graph {
     /// - returns: An array of Edges containing the entire route, or an empty array if no route could be found
     func dfs(fromIndex: Int, goalTest: (V) -> Bool) -> [E] {
         // pretty standard dfs that doesn't visit anywhere twice; pathDict tracks route
-        var visited: [Bool] = [Bool](repeating: false, count: vertexCount)
-        let stack: Stack<Int> = Stack<Int>()
-        var pathDict: [Int: E] = [Int: E]()
+        var visited = [Bool](repeating: false, count: vertexCount)
+        let stack = Stack<Int>()
+        var pathDict = [Int: E]()
         stack.push(fromIndex)
         while !stack.isEmpty {
             let v: Int = stack.pop()
-            if (visited[v]) {
+            if visited[v] {
                 continue
             }
             visited[v] = true
@@ -155,7 +155,7 @@ public extension Graph {
         }
         return [] // no route found
     }
-    
+
     /// Find a route from a vertex to the first that satisfies goalTest()
     /// using a depth-first search.
     ///
@@ -168,7 +168,7 @@ public extension Graph {
         }
         return []
     }
-    
+
     /// Find a route from one vertex to another using a depth-first search.
     ///
     /// - parameter fromIndex: The index of the starting vertex.
@@ -176,13 +176,13 @@ public extension Graph {
     /// - returns: An array of Edges containing the entire route, or an empty array if no route could be found
     func dfs(fromIndex: Int, toIndex: Int) -> [E] {
         // pretty standard dfs that doesn't visit anywhere twice; pathDict tracks route
-        var visited: [Bool] = [Bool](repeating: false, count: vertexCount)
-        let stack: Stack<Int> = Stack<Int>()
-        var pathDict: [Int: Edge] = [Int: Edge]()
+        var visited = [Bool](repeating: false, count: vertexCount)
+        let stack = Stack<Int>()
+        var pathDict = [Int: Edge]()
         stack.push(fromIndex)
         while !stack.isEmpty {
             let v: Int = stack.pop()
-            if (visited[v]) {
+            if visited[v] {
                 continue
             }
             visited[v] = true
@@ -222,14 +222,14 @@ public extension Graph {
     /// - returns: An array of arrays of Edges containing routes to every vertex connected and passing goalTest(), or an empty array if no routes could be found
     func findAllDfs(fromIndex: Int, goalTest: (V) -> Bool) -> [[E]] {
         // pretty standard bfs that doesn't visit anywhere twice; pathDict tracks route
-        var visited: [Bool] = [Bool](repeating: false, count: vertexCount)
-        let stack: Stack<Int> = Stack<Int>()
-        var pathDict: [Int: Edge] = [Int: Edge]()
-        var paths: [[Edge]] = [[Edge]]()
+        var visited = [Bool](repeating: false, count: vertexCount)
+        let stack = Stack<Int>()
+        var pathDict = [Int: Edge]()
+        var paths = [[Edge]]()
         stack.push(fromIndex)
         while !stack.isEmpty {
             let v: Int = stack.pop()
-            if (visited[v]) {
+            if visited[v] {
                 continue
             }
             visited[v] = true
@@ -278,12 +278,12 @@ public extension Graph {
     func bfs(fromIndex initalVertexIndex: Int,
              goalTest: (Int) -> Bool,
              visitOrder: ([E]) -> [E],
-             reducer: (E) -> Bool) -> Int? {
-
+             reducer: (E) -> Bool) -> Int?
+    {
         if goalTest(initalVertexIndex) {
             return initalVertexIndex
         }
-        var visited: [Bool] = [Bool](repeating: false, count: vertexCount)
+        var visited = [Bool](repeating: false, count: vertexCount)
         let container = Queue<E>()
 
         visited[initalVertexIndex] = true
@@ -333,8 +333,8 @@ public extension Graph {
     func traverseBfs(fromIndex initalVertexIndex: Int,
                      goalTest: (Int) -> Bool,
                      visitOrder: ([E]) -> [E],
-                     reducer: (E) -> Bool) -> Int? {
-
+                     reducer: (E) -> Bool) -> Int?
+    {
         if goalTest(initalVertexIndex) {
             return initalVertexIndex
         }
@@ -361,7 +361,6 @@ public extension Graph {
         return nil // no route found
     }
 
-
     /// Find a route from a vertex to the first that satisfies goalTest()
     /// using a breadth-first search.
     ///
@@ -370,9 +369,9 @@ public extension Graph {
     /// - returns: An array of Edges containing the entire route, or an empty array if no route could be found
     func bfs(fromIndex: Int, goalTest: (V) -> Bool) -> [E] {
         // pretty standard bfs that doesn't visit anywhere twice; pathDict tracks route
-        var visited: [Bool] = [Bool](repeating: false, count: vertexCount)
-        let queue: Queue<Int> = Queue<Int>()
-        var pathDict: [Int: Edge] = [Int: Edge]()
+        var visited = [Bool](repeating: false, count: vertexCount)
+        let queue = Queue<Int>()
+        var pathDict = [Int: Edge]()
         queue.push(fromIndex)
         while !queue.isEmpty {
             let v: Int = queue.pop()
@@ -380,7 +379,7 @@ public extension Graph {
                 // figure out route of edges based on pathDict
                 return pathDictToPath(from: fromIndex, to: v, pathDict: pathDict) as! [Self.E]
             }
-            
+
             for e in edgesForIndex(v) {
                 if !visited[e.v] {
                     visited[e.v] = true
@@ -391,7 +390,7 @@ public extension Graph {
         }
         return [] // no path found
     }
-    
+
     /// Find a route from a vertex to the first that satisfies goalTest()
     /// using a breadth-first search.
     ///
@@ -404,7 +403,7 @@ public extension Graph {
         }
         return []
     }
-    
+
     /// Find a route from one vertex to another using a breadth-first search.
     ///
     /// - parameter fromIndex: The index of the starting vertex.
@@ -412,9 +411,9 @@ public extension Graph {
     /// - returns: An array of Edges containing the entire route, or an empty array if no route could be found
     func bfs(fromIndex: Int, toIndex: Int) -> [E] {
         // pretty standard bfs that doesn't visit anywhere twice; pathDict tracks route
-        var visited: [Bool] = [Bool](repeating: false, count: vertexCount)
-        let queue: Queue<Int> = Queue<Int>()
-        var pathDict: [Int: Edge] = [Int: Edge]()
+        var visited = [Bool](repeating: false, count: vertexCount)
+        let queue = Queue<Int>()
+        var pathDict = [Int: Edge]()
         queue.push(fromIndex)
         while !queue.isEmpty {
             let v: Int = queue.pop()
@@ -422,7 +421,7 @@ public extension Graph {
                 // figure out route of edges based on pathDict
                 return pathDictToPath(from: fromIndex, to: toIndex, pathDict: pathDict) as! [Self.E]
             }
-            
+
             for e in edgesForIndex(v) {
                 if !visited[e.v] {
                     visited[e.v] = true
@@ -447,7 +446,7 @@ public extension Graph {
         }
         return []
     }
-    
+
     /// Find path routes from a vertex to all others the
     /// function goalTest() returns true for using a breadth-first search.
     ///
@@ -456,10 +455,10 @@ public extension Graph {
     /// - returns: An array of arrays of Edges containing routes to every vertex connected and passing goalTest(), or an empty array if no routes could be found
     func findAllBfs(fromIndex: Int, goalTest: (V) -> Bool) -> [[E]] {
         // pretty standard bfs that doesn't visit anywhere twice; pathDict tracks route
-        var visited: [Bool] = [Bool](repeating: false, count: vertexCount)
-        let queue: Queue<Int> = Queue<Int>()
-        var pathDict: [Int: Edge] = [Int: Edge]()
-        var paths: [[Edge]] = [[Edge]]()
+        var visited = [Bool](repeating: false, count: vertexCount)
+        let queue = Queue<Int>()
+        var pathDict = [Int: Edge]()
+        var paths = [[Edge]]()
         queue.push(fromIndex)
         while !queue.isEmpty {
             let v: Int = queue.pop()
@@ -467,7 +466,7 @@ public extension Graph {
                 // figure out route of edges based on pathDict
                 paths.append(pathDictToPath(from: fromIndex, to: v, pathDict: pathDict))
             }
-            
+
             for e in edgesForIndex(v) {
                 if !visited[e.v] {
                     visited[e.v] = true
@@ -478,7 +477,7 @@ public extension Graph {
         }
         return paths as! [[Self.E]]
     }
-    
+
     /// Find path routes from a vertex to all others the
     /// function goalTest() returns true for using a breadth-first search.
     ///
@@ -493,10 +492,9 @@ public extension Graph {
     }
 }
 
-//MARK: `WeightedGraph` extension for doing dijkstra
+// MARK: `WeightedGraph` extension for doing dijkstra
 
 public extension WeightedGraph where W: Comparable & Numeric {
-
     /// Finds the shortest paths from some route vertex to every other vertex in the graph.
     ///
     /// - parameter graph: The WeightedGraph to look within.
@@ -504,15 +502,15 @@ public extension WeightedGraph where W: Comparable & Numeric {
     /// - parameter startDistance: The distance to get to the root node (typically 0).
     /// - returns: Returns a tuple of two things: the first, an array containing the distances, the second, a dictionary containing the edge to reach each vertex. Use the function pathDictToPath() to convert the dictionary into something useful for a specific point.
     func dijkstra(root: Int, startDistance: W) -> ([W?], [Int: WeightedEdge<W>]) {
-        var distances: [W?] = [W?](repeating: nil, count: vertexCount) // how far each vertex is from start
+        var distances = [W?](repeating: nil, count: vertexCount) // how far each vertex is from start
         distances[root] = startDistance // the start vertex is startDistance away
-        var pq: PriorityQueue<DijkstraNode<W>> = PriorityQueue<DijkstraNode<W>>(ascending: true)
-        var pathDict: [Int: WeightedEdge<W>] = [Int: WeightedEdge<W>]() // how we got to each vertex
+        var pq = PriorityQueue<DijkstraNode<W>>(ascending: true)
+        var pathDict = [Int: WeightedEdge<W>]() // how we got to each vertex
         pq.push(DijkstraNode(vertex: root, distance: startDistance))
-        
+
         while let u = pq.pop()?.vertex { // explore the next closest vertex
             guard let distU = distances[u] else { continue } // should already have seen it
-            for we in edgesForIndex(u)  { // look at every edge/vertex from the vertex in question
+            for we in edgesForIndex(u) { // look at every edge/vertex from the vertex in question
                 let distV = distances[we.v] // the old distance to this vertex
                 if distV == nil || distV! > we.weight + distU { // if we have no old distance or we found a shorter path
                     distances[we.v] = we.weight + distU // update the distance to this vertex
@@ -521,10 +519,9 @@ public extension WeightedGraph where W: Comparable & Numeric {
                 }
             }
         }
-        
+
         return (distances, pathDict)
     }
-
 
     /// A convenience version of dijkstra() that allows the supply of the root
     /// vertex instead of the index of the root vertex.
@@ -536,42 +533,39 @@ public extension WeightedGraph where W: Comparable & Numeric {
     }
 }
 
-//MARK: Dijkstra Utilites
+// MARK: Dijkstra Utilites
 
 /// Represents a node in the priority queue used
 /// for selecting the next
 struct DijkstraNode<D: Comparable>: Comparable, Equatable {
     let vertex: Int
     let distance: D
-    
+
     static func < <D>(lhs: DijkstraNode<D>, rhs: DijkstraNode<D>) -> Bool {
         return lhs.distance < rhs.distance
     }
-    
+
     static func == <D>(lhs: DijkstraNode<D>, rhs: DijkstraNode<D>) -> Bool {
         return lhs.distance == rhs.distance
     }
 }
 
-
 /// Helper function to get easier access to Dijkstra results.
-public func distanceArrayToVertexDict<T, W>(distances: [W?], graph: WeightedGraph<T, W>) -> [T : W?] {
-    var distanceDict: [T: W?] = [T: W?]()
-    for i in 0..<distances.count {
+public func distanceArrayToVertexDict<T, W>(distances: [W?], graph: WeightedGraph<T, W>) -> [T: W?] {
+    var distanceDict = [T: W?]()
+    for i in 0 ..< distances.count {
         distanceDict[graph.vertexAtIndex(i)] = distances[i]
     }
     return distanceDict
 }
 
-
-
-//version for Dijkstra with weighted edges
-extension Graph {
-    public func edgesToVertices(edges: [E]) -> [V] {
-        var vs: [V] = [V]()
+// version for Dijkstra with weighted edges
+public extension Graph {
+    func edgesToVertices(edges: [E]) -> [V] {
+        var vs = [V]()
         if let first = edges.first {
             vs.append(vertexAtIndex(first.u))
-            vs += edges.map({vertexAtIndex($0.v)})
+            vs += edges.map { vertexAtIndex($0.v) }
         }
         return vs
     }
@@ -579,14 +573,14 @@ extension Graph {
 
 /// Takes a dictionary of edges to reach each node and returns an array of edges
 /// that goes from `from` to `to`
-public func pathDictToPath(from: Int, to: Int, pathDict:[Int:Edge]) -> [Edge] {
+public func pathDictToPath(from: Int, to: Int, pathDict: [Int: Edge]) -> [Edge] {
     if pathDict.count == 0 {
         return []
     }
-    var edgePath: [Edge] = [Edge]()
+    var edgePath = [Edge]()
     var e: Edge = pathDict[to]!
     edgePath.append(e)
-    while (e.u != from) {
+    while e.u != from {
         e = pathDict[e.u]!
         edgePath.append(e)
     }
@@ -594,11 +588,11 @@ public func pathDictToPath(from: Int, to: Int, pathDict:[Int:Edge]) -> [Edge] {
 }
 
 // version for Dijkstra
-public func pathDictToPath<W>(from: Int, to: Int, pathDict:[Int:WeightedEdge<W>]) -> [WeightedEdge<W>] {
-    var edgePath: [WeightedEdge<W>] = [WeightedEdge<W>]()
+public func pathDictToPath<W>(from: Int, to: Int, pathDict: [Int: WeightedEdge<W>]) -> [WeightedEdge<W>] {
+    var edgePath = [WeightedEdge<W>]()
     var e: WeightedEdge<W> = pathDict[to]!
     edgePath.append(e)
-    while (e.u != from) {
+    while e.u != from {
         e = pathDict[e.u]!
         edgePath.append(e)
     }

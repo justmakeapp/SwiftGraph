@@ -7,18 +7,22 @@ let package = Package(
     products: [
         .library(
             name: "SwiftGraph",
-            targets: ["SwiftGraph"]),
-        ],
+            targets: ["SwiftGraph"]
+        ),
+    ],
     dependencies: [],
     targets: [
         .target(
             name: "SwiftGraph",
-            dependencies: []),
+            dependencies: []
+        ),
         .testTarget(
             name: "SwiftGraphTests",
-            dependencies: ["SwiftGraph"]),
+            dependencies: ["SwiftGraph"]
+        ),
         .testTarget(
             name: "SwiftGraphPerformanceTests",
-            dependencies: ["SwiftGraph"]),
-        ]
+            dependencies: ["SwiftGraph"]
+        ),
+    ]
 )

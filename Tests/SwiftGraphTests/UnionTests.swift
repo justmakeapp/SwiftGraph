@@ -16,11 +16,10 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class UnionTests: XCTestCase {
-
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -99,20 +98,19 @@ class UnionTests: XCTestCase {
         XCTAssertTrue(g2.edgeExists(from: "Chicago", to: "Boston"), "g2: Expected an edge from Chicago to Boston")
     }
 
-
     func testIdentityEmptyGraph() {
         let eg = UnweightedUniqueElementsGraph<String>()
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Chicago"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", directed: true)
-        
+
         let result1 = UnweightedUniqueElementsGraph.unionOf(eg, g)
-        
+
         XCTAssertEqual(result1.vertices, g.vertices, "Expected same vertices after left union with empty graph")
         XCTAssertEqual(result1.edgeCount, 1, "Expected same edge count after left union with empty graph")
         XCTAssertTrue(result1.edgeExists(from: "Atlanta", to: "Chicago"), "Expected an edge from Chicago to Atlanta after left union with empty graph")
-        
+
         let result2 = UnweightedUniqueElementsGraph.unionOf(g, eg)
-        
+
         XCTAssertEqual(result2.vertices, g.vertices, "Expected same vertices after right union with empty graph")
         XCTAssertEqual(result2.edgeCount, 1, "Expected same edge count after right union with empty graph")
         XCTAssertTrue(result2.edgeExists(from: "Atlanta", to: "Chicago"), "Expected an edge from Chicago to Atlanta after right union with empty graph")

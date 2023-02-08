@@ -16,11 +16,10 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class UnweightedGraphTests: XCTestCase {
-
     func testEdgeExists() {
         let g = UnweightedGraph<String>(vertices: ["A", "B"])
         g.addEdge(from: "A", to: "B", directed: true)
@@ -126,4 +125,3 @@ class UnweightedGraphTests: XCTestCase {
         XCTAssertTrue(g3Cycle.edgeExists(from: "Chicago", to: "Atlanta"), "g3Cycle: Expected an edge from Chicago to Atlanta")
     }
 }
-

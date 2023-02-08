@@ -54,8 +54,8 @@ public class Queue<T> {
     }
 }
 
-extension Queue where T: Equatable {
-    public func contains(_ thing: T) -> Bool {
+public extension Queue where T: Equatable {
+    func contains(_ thing: T) -> Bool {
         let content = container.dropFirst(head)
         if content.firstIndex(of: thing) != nil {
             return true
@@ -63,4 +63,3 @@ extension Queue where T: Equatable {
         return false
     }
 }
-

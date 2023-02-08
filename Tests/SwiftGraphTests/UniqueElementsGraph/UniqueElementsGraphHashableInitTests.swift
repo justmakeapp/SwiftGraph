@@ -16,11 +16,10 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class UnweightedUniqueElementsGraphHashableInitTests: XCTestCase {
-
     func testPathInitializerUndirected() {
         let g0Path = UnweightedUniqueElementsGraph<String>.withPath([])
         XCTAssertEqual(g0Path.vertexCount, 0, "g0Path: Expected empty graph")
@@ -217,4 +216,3 @@ class UnweightedUniqueElementsGraphHashableInitTests: XCTestCase {
         XCTAssertTrue(g6Cycle.edgeExists(from: "Eugene", to: "Atlanta"), "g6Cycle: Expected an edge from Eugene to Atlanta")
     }
 }
-

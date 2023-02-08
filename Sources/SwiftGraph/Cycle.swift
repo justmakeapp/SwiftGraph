@@ -17,21 +17,23 @@
 //  limitations under the License.
 
 /// Functions for finding cycles in a `Graph`
+
 // MARK: Extension to `Graph` for detecting cycles
+
 public extension Graph {
     // Based on an algorithm developed by Hongbo Liu and Jiaxin Wang
     // Liu, Hongbo, and Jiaxin Wang. "A new way to enumerate cycles in graph."
     // In Telecommunications, 2006. AICT-ICIW'06. International Conference on Internet and
     // Web Applications and Services/Advanced International Conference on, pp. 57-57. IEEE, 2006.
-    
+
     /// Find all of the cycles in a `Graph`, expressed as vertices.
     ///
     /// - parameter upToLength: Does the caller only want to detect cycles up to a certain length?
     /// - returns: a list of lists of vertices in cycles
     func detectCycles(upToLength maxK: Int = Int.max) -> [[V]] {
         var cycles = [[V]]() // store of all found cycles
-        var openPaths: [[V]] = vertices.map{ [$0] } // initial open paths are single vertex lists
-        
+        var openPaths: [[V]] = vertices.map { [$0] } // initial open paths are single vertex lists
+
         while openPaths.count > 0 {
             let openPath = openPaths.removeFirst() // queue pop()
             if openPath.count > maxK { return cycles } // do we want to stop at a certain length k
@@ -45,7 +47,7 @@ public extension Graph {
                 }
             }
         }
-        
+
         return cycles
     }
 
@@ -56,9 +58,8 @@ public extension Graph {
     /// - parameter upToLength: Does the caller only want to detect cycles up to a certain length?
     /// - returns: a list of lists of edges in cycles
     func detectCyclesAsEdges(upToLength maxK: Int = Int.max) -> [[E]] {
-
         var cycles = [[E]]() // store of all found cycles
-        var openPaths: [PathTuple] = (0..<vertices.count).map{ ($0, []) } // initial open paths start at a vertex, and are empty
+        var openPaths: [PathTuple] = (0 ..< vertices.count).map { ($0, []) } // initial open paths start at a vertex, and are empty
 
         while openPaths.count > 0 {
             let openPath = openPaths.removeFirst() // queue pop()
@@ -80,7 +81,7 @@ public extension Graph {
 }
 
 ///// Data structure used exclusively in `detectCylesAsEdges()`
-//fileprivate struct Path {
+// fileprivate struct Path {
 //    var start: Int
 //    var path: [Edge] = []
 //
@@ -101,4 +102,4 @@ public extension Graph {
 //    var tail: Int {
 //        return path.last?.v ?? start
 //    }
-//}
+// }

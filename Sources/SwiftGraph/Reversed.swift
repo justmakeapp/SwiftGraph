@@ -18,13 +18,13 @@
 
 import Foundation
 
-extension Graph {
+public extension Graph {
     /// Returns a graph of the same type with all edges reversed.
     ///
     /// - returns: Graph of the same type with all edges reversed.
-    public func reversed() -> Self {
-        let g = Self(vertices: self.vertices)
-        for e in self.edgeList() {
+    func reversed() -> Self {
+        let g = Self(vertices: vertices)
+        for e in edgeList() {
             g.addEdge(e.reversed(), directed: e.directed)
         }
         return g

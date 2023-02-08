@@ -16,62 +16,61 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class ConstructorsPerformanceTests: XCTestCase {
-
-    struct AnyEquatable<T: Equatable & Codable>: Equatable, Codable {
+    struct AnyEquatable<T: Equatable>: Equatable, Codable {
         let value: T
     }
 
     func testPathUnweightedGraphConstructor() {
-        self.measure {
-            _ = UnweightedGraph.withPath( Array(1...999999))
+        measure {
+            _ = UnweightedGraph.withPath(Array(1 ... 999_999))
         }
     }
 
     func testCycleUnweightedGraphConstructor() {
-        self.measure {
-            _ = UnweightedGraph.withCycle( Array(1...999999))
+        measure {
+            _ = UnweightedGraph.withCycle(Array(1 ... 999_999))
         }
     }
 
     func testPathUnweightedUniqueElementsGraphConstructor() {
-        let array = Array(1...2999).map({ AnyEquatable(value: $0) })
-        self.measure {
-            _ = UnweightedUniqueElementsGraph.withPath( array)
+        let array = Array(1 ... 2999).map { AnyEquatable(value: $0) }
+        measure {
+            _ = UnweightedUniqueElementsGraph.withPath(array)
         }
     }
 
     func testPathUnweightedUniqueElementsGraphHashableConstructor() {
-        self.measure {
-            _ = UnweightedUniqueElementsGraph<Int>.withPath( Array(1...2999))
+        measure {
+            _ = UnweightedUniqueElementsGraph<Int>.withPath(Array(1 ... 2999))
         }
     }
 
     func testCycleUnweightedUniqueElementsGraphConstructor() {
-        self.measure {
-            _ = UnweightedUniqueElementsGraph.withCycle( Array(1...2999))
+        measure {
+            _ = UnweightedUniqueElementsGraph.withCycle(Array(1 ... 2999))
         }
     }
 
     func testCycleUniqueElementsHashableConstructor() {
-        let array = Array(1...2999).map({ AnyEquatable(value: $0) })
-        self.measure {
-            _ = UnweightedUniqueElementsGraph.withCycle( array)
+        let array = Array(1 ... 2999).map { AnyEquatable(value: $0) }
+        measure {
+            _ = UnweightedUniqueElementsGraph.withCycle(array)
         }
     }
 
     func testStarGraphConstructor() {
-        self.measure {
-            _ = StarGraph.build(withCenter: 0, andLeafs: Array(1...999999))
+        measure {
+            _ = StarGraph.build(withCenter: 0, andLeafs: Array(1 ... 999_999))
         }
     }
 
     func testCompleteGraphConstructor() {
-        self.measure {
-            _ = CompleteGraph.build(withVertices: Array(0...1999))
+        measure {
+            _ = CompleteGraph.build(withVertices: Array(0 ... 1999))
         }
     }
 }

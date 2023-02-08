@@ -16,13 +16,12 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class WeightedUniqueElementsGraphTests: XCTestCase {
-
     func testUniqueVertexAfterInit() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Atlanta"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Atlanta"])
         XCTAssertEqual(g.vertices, ["Atlanta"], "Expected one vertex")
     }
 
@@ -34,9 +33,9 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
         _ = g.addVertex("Atlanta")
         XCTAssertEqual(g.vertices, ["Atlanta"], "Expected one vertex")
     }
-    
+
     func testUniqueUndirectedEdgesSameWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Chicago"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: false)
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago", withWeight: "AC"), "Expected an edge from Atlanta to Chicago")
@@ -47,7 +46,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueUndirectedEdgesDifferentWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Chicago"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: false)
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC2", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago", withWeight: "AC"), "Expected an edge from Atlanta to Chicago")
@@ -60,7 +59,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueUndirectedEdges2() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Boston", "Chicago"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Boston", "Chicago"])
         g.addEdge(from: "Chicago", to: "Boston", weight: "CB", directed: false)
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago", withWeight: "AC"), "Expected an edge from Atlanta to Chicago")
@@ -75,7 +74,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueUndirectedLoopSameWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta"])
         g.addEdge(from: "Atlanta", to: "Atlanta", weight: "AA", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "AA"), "Expected an edge from Atlanta to Atlanta")
         XCTAssertFalse(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "X"))
@@ -87,7 +86,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueUndirectedLoopDifferentWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta"])
         g.addEdge(from: "Atlanta", to: "Atlanta", weight: "AA", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "AA"), "Expected an edge from Atlanta to Atlanta")
         XCTAssertFalse(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "X"))
@@ -101,7 +100,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueUndirectedLoop2SameWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Boston"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Boston"])
         g.addEdge(from: "Atlanta", to: "Boston", weight: "AB", directed: false)
         g.addEdge(from: "Atlanta", to: "Atlanta", weight: "AA", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "AA"), "Expected an edge from Atlanta to Atlanta")
@@ -114,7 +113,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueUndirectedLoop2DifferentWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Boston"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Boston"])
         g.addEdge(from: "Atlanta", to: "Boston", weight: "AB", directed: false)
         g.addEdge(from: "Atlanta", to: "Atlanta", weight: "AA", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "AA"), "Expected an edge from Atlanta to Atlanta")
@@ -129,7 +128,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueDirectedEdgesSameWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Chicago"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: true)
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago", withWeight: "AC"), "Expected an edge from Atlanta to Chicago")
@@ -138,7 +137,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueDirectedEdgesDifferentWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Chicago"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: true)
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC2", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago", withWeight: "AC"), "Expected an edge from Atlanta to Chicago")
@@ -148,7 +147,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueDirectedLoopSameWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta"])
         g.addEdge(from: "Atlanta", to: "Atlanta", weight: "AA", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "AA"), "Expected an edge from Atlanta to Atlanta")
         XCTAssertFalse(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "X"))
@@ -160,7 +159,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueDirectedLoopDifferentWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta"])
         g.addEdge(from: "Atlanta", to: "Atlanta", weight: "AA", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "AA"), "Expected an edge from Atlanta to Atlanta")
         XCTAssertFalse(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "X"))
@@ -174,7 +173,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueDirectedLoop2SameWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Boston"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Boston"])
         g.addEdge(from: "Atlanta", to: "Boston", weight: "AB", directed: true)
         g.addEdge(from: "Atlanta", to: "Atlanta", weight: "AA", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "AA"), "Expected an edge from Atlanta to Atlanta")
@@ -187,7 +186,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueDirectedLoop2DifferentWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Boston"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Boston"])
         g.addEdge(from: "Atlanta", to: "Boston", weight: "AB", directed: true)
         g.addEdge(from: "Atlanta", to: "Atlanta", weight: "AA", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "AA"), "Expected an edge from Atlanta to Atlanta")
@@ -200,9 +199,9 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
         XCTAssertFalse(g.edgeExists(from: "Atlanta", to: "Atlanta", withWeight: "X"))
         XCTAssertEqual(g.edgeCount, 3, "Expected one edges")
     }
-    
+
     func testUniqueEdgesCombinedSameWeight() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Chicago"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: false)
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago", withWeight: "AC"), "Expected an edge from Atlanta to Chicago")
@@ -212,7 +211,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueEdgesCombinedDifferentWeight1() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Chicago"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: false)
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC2", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago", withWeight: "AC"), "Expected an edge from Atlanta to Chicago")
@@ -223,7 +222,7 @@ class WeightedUniqueElementsGraphTests: XCTestCase {
     }
 
     func testUniqueEdgesCombinedDifferentWeight2() {
-        let g = WeightedUniqueElementsGraph<String, String>(vertices:["Atlanta", "Chicago"])
+        let g = WeightedUniqueElementsGraph<String, String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC2", directed: false)
         g.addEdge(from: "Atlanta", to: "Chicago", weight: "AC", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago", withWeight: "AC2"), "Expected an edge from Atlanta to Chicago")

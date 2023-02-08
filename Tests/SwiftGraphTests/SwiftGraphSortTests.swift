@@ -16,32 +16,31 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class SwiftGraphSortTests: XCTestCase {
     // pg 1016 Liang
-    let dressDAG: UnweightedGraph<String> = UnweightedGraph<String>(vertices: ["undershorts", "socks", "pants", "shoes", "watch", "belt", "shirt", "tie", "jacket"])
-    
+    let dressDAG: UnweightedGraph<String> = .init(vertices: ["undershorts", "socks", "pants", "shoes", "watch", "belt", "shirt", "tie", "jacket"])
+
     private func comesBefore<T: Equatable>(order: [T], a: T, b: T) -> Bool {
-        let aPos = order.firstIndex { (i) -> Bool in
-            return i == a
+        let aPos = order.firstIndex { i -> Bool in
+            i == a
         }
-        let bPos = order.firstIndex { (i) -> Bool in
-            return i == b
+        let bPos = order.firstIndex { i -> Bool in
+            i == b
         }
-        
+
         guard let A = aPos, let B = bPos else { return false }
         return A < B
     }
-    
+
     func testComesBefore() {
         XCTAssertTrue(comesBefore(order: [5, 4, 3, 2, 1], a: 3, b: 1))
         XCTAssertTrue(comesBefore(order: [5, 4, 3, 2, 1], a: 5, b: 2))
         XCTAssertTrue(comesBefore(order: ["A", "B", "C"], a: "A", b: "C"))
-
     }
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -57,16 +56,16 @@ class SwiftGraphSortTests: XCTestCase {
         dressDAG.addEdge(from: "tie", to: "jacket", directed: true)
         print(dressDAG)
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testDAG() {
         XCTAssertTrue(dressDAG.isDAG, "dressDAG is a DAG")
     }
-    
+
     func testTopologicalSort() {
         // Seattle -> Miami
         guard let result = dressDAG.topologicalSort() else {
@@ -84,6 +83,5 @@ class SwiftGraphSortTests: XCTestCase {
         XCTAssertTrue(comesBefore(order: result, a: "shirt", b: "tie"))
         XCTAssertTrue(comesBefore(order: result, a: "shirt", b: "belt"))
         XCTAssertTrue(comesBefore(order: result, a: "tie", b: "jacket"))
-
     }
 }

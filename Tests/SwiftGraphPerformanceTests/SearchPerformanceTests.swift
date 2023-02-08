@@ -16,133 +16,134 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class SearchPerformanceTests: XCTestCase {
-    let starGraph = StarGraph.build(withCenter: 0, andLeafs: Array(1...99999))
-    let pathGraph = UnweightedGraph.withPath( Array(0...99999))
-    let completeGraph = CompleteGraph.build(withVertices: Array(0...2499))
+    let starGraph = StarGraph.build(withCenter: 0, andLeafs: Array(1 ... 99999))
+    let pathGraph = UnweightedGraph.withPath(Array(0 ... 99999))
+    let completeGraph = CompleteGraph.build(withVertices: Array(0 ... 2499))
 
     // MARK: With Goal Test
 
     func testDfsInStarGraphWithGoalTest() {
-        self.measure {
+        measure {
             _ = starGraph.dfs(from: 0, goalTest: { _ in false })
         }
     }
 
     func testDfsInStarGraphWithGoalTestByIndex() {
-        self.measure {
+        measure {
             _ = starGraph.dfs(fromIndex: 0, goalTest: { _ in false })
         }
     }
 
     func testBfsInStarGraphWithGoalTest() {
-        self.measure {
+        measure {
             _ = starGraph.bfs(from: 0, goalTest: { _ in false })
         }
     }
 
     func testBfsInStarGraphWithGoalTestByIndex() {
-        self.measure {
+        measure {
             _ = starGraph.bfs(fromIndex: 0, goalTest: { _ in false })
         }
     }
 
     func testDfsInPathWithGoalTest() {
-        self.measure {
+        measure {
             _ = pathGraph.dfs(from: 0, goalTest: { _ in false })
         }
     }
 
     func testDfsInPathWithGoalTestByIndex() {
-        self.measure {
+        measure {
             _ = pathGraph.dfs(fromIndex: 0, goalTest: { _ in false })
         }
     }
 
     func testBfsInPathWithGoalTest() {
-        self.measure {
+        measure {
             _ = pathGraph.bfs(from: 0, goalTest: { _ in false })
         }
     }
 
     func testBfsInPathWithGoalTestByIndex() {
-        self.measure {
+        measure {
             _ = pathGraph.bfs(fromIndex: 0, goalTest: { _ in false })
         }
     }
 
     func testDfsInCompleteGraphWithGoalTest() {
-        self.measure {
+        measure {
             _ = completeGraph.dfs(from: 0, goalTest: { _ in false })
         }
     }
 
     func testDfsInCompleteGraphWithGoalTestByIndex() {
-        self.measure {
+        measure {
             _ = completeGraph.dfs(fromIndex: 0, goalTest: { _ in false })
         }
     }
 
     func testBfsInCompleteGraphWithGoalTest() {
-        self.measure {
+        measure {
             _ = completeGraph.bfs(from: 0, goalTest: { _ in false })
         }
     }
 
     func testBfsInCompleteGraphWithGoalTestByIndex() {
-        self.measure {
+        measure {
             _ = completeGraph.bfs(fromIndex: 0, goalTest: { _ in false })
         }
     }
 
     // MARK: To vertex
+
     func testDfsInStarGraph() {
-        self.measure {
+        measure {
             _ = starGraph.dfs(from: starGraph.vertices.first!, to: starGraph.vertices.last!)
         }
     }
 
     func testDfsInStarGraphByIndex() {
-        self.measure {
+        measure {
             _ = starGraph.dfs(fromIndex: 0, toIndex: starGraph.vertexCount - 1)
         }
     }
 
     func testBfsInStarGraph() {
-        self.measure {
+        measure {
             _ = starGraph.bfs(from: starGraph.vertices.first!, to: starGraph.vertices.last!)
         }
     }
 
     func testBfsInStarGraphByIndex() {
-        self.measure {
+        measure {
             _ = starGraph.bfs(fromIndex: 0, toIndex: starGraph.vertexCount - 1)
         }
     }
 
     func testDfsInPath() {
-        self.measure {
+        measure {
             _ = pathGraph.dfs(from: 0, to: pathGraph.vertices.last!)
         }
     }
 
     func testDfsInPathByIndex() {
-        self.measure {
+        measure {
             _ = pathGraph.dfs(fromIndex: 0, toIndex: pathGraph.vertexCount - 1)
         }
     }
 
     func testBfsInPath() {
-        self.measure {
+        measure {
             _ = pathGraph.bfs(from: 0, to: pathGraph.vertices.last!)
         }
     }
 
     func testBfsInPathByIndex() {
-        self.measure {
+        measure {
             _ = pathGraph.bfs(fromIndex: 0, toIndex: pathGraph.vertexCount - 1)
         }
     }

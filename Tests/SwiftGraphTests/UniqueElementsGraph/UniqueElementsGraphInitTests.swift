@@ -16,11 +16,10 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class UnweightedUniqueElementsGraphInitTests: XCTestCase {
-
     func testPathInitializerUndirected() {
         let g0Path = UnweightedUniqueElementsGraph<String>.withPath([])
         XCTAssertEqual(g0Path.vertexCount, 0, "g0Path: Expected empty graph")
@@ -221,7 +220,7 @@ class UnweightedUniqueElementsGraphInitTests: XCTestCase {
         let structure = [
             0: [1, 2, 3],
             1: [2, 3],
-            2: [0, 1]
+            2: [0, 1],
         ]
 
         func next(_ i: Int) -> [Int] {
@@ -251,7 +250,7 @@ class UnweightedUniqueElementsGraphInitTests: XCTestCase {
 
         func next(_ tree: Tree) -> [Tree] {
             switch tree {
-            case .node(_, let lhs, let rhs):
+            case let .node(_, lhs, rhs):
                 return [lhs, rhs]
             case .leaf:
                 return []
@@ -260,8 +259,8 @@ class UnweightedUniqueElementsGraphInitTests: XCTestCase {
 
         func select(_ tree: Tree) -> Int {
             switch tree {
-            case .node(let i, _, _),
-                 .leaf(let i):
+            case let .node(i, _, _),
+                 let .leaf(i):
                 return i
             }
         }
@@ -300,4 +299,3 @@ class UnweightedUniqueElementsGraphInitTests: XCTestCase {
         XCTAssertEqual(g.vertexCount, 11)
     }
 }
-

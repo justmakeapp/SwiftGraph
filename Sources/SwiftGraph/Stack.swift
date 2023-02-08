@@ -18,7 +18,7 @@
 
 /// Implements a stack - helper class that uses an array internally.
 public class Stack<T> {
-    private var container: [T] = [T]()
+    private var container: [T] = .init()
     public var isEmpty: Bool { return container.isEmpty }
     public func push(_ thing: T) { container.append(thing) }
     public func pop() -> T { return container.removeLast() }

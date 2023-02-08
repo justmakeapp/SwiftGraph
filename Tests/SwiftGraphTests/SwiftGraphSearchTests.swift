@@ -16,16 +16,16 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class SwiftGraphSearchTests: XCTestCase {
     // pg 1016 Liang
-    let cityGraph: UnweightedGraph<String> = UnweightedGraph<String>(vertices: ["Seattle", "San Francisco", "Los Angeles", "Denver", "Kansas City", "Chicago", "Boston", "New York", "Atlanta", "Miami", "Dallas", "Houston"])
-    
+    let cityGraph: UnweightedGraph<String> = .init(vertices: ["Seattle", "San Francisco", "Los Angeles", "Denver", "Kansas City", "Chicago", "Boston", "New York", "Atlanta", "Miami", "Dallas", "Houston"])
+
     // 15 largest MSAs in United States as of 2016
-    let cityGraph2: UnweightedGraph<String> = UnweightedGraph<String>(vertices: ["Seattle", "San Francisco", "Los Angeles", "Riverside", "Phoenix", "Chicago", "Boston", "New York", "Atlanta", "Miami", "Dallas", "Houston", "Detroit", "Philadelphia", "Washington"])
-    
+    let cityGraph2: UnweightedGraph<String> = .init(vertices: ["Seattle", "San Francisco", "Los Angeles", "Riverside", "Phoenix", "Chicago", "Boston", "New York", "Atlanta", "Miami", "Dallas", "Houston", "Detroit", "Philadelphia", "Washington"])
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -54,7 +54,7 @@ class SwiftGraphSearchTests: XCTestCase {
         cityGraph.addEdge(from: "Houston", to: "Miami")
         cityGraph.addEdge(from: "Houston", to: "Dallas")
         print(cityGraph.description)
-        
+
         cityGraph2.addEdge(from: "Seattle", to: "Chicago")
         cityGraph2.addEdge(from: "Seattle", to: "San Francisco")
         cityGraph2.addEdge(from: "San Francisco", to: "Riverside")
@@ -83,12 +83,12 @@ class SwiftGraphSearchTests: XCTestCase {
         cityGraph2.addEdge(from: "Philadelphia", to: "Washington")
         print(cityGraph2.description)
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testDFS1() {
         // Seattle -> Miami
         let result = cityGraph.dfs(from: "Seattle", to: "Miami")
@@ -101,7 +101,7 @@ class SwiftGraphSearchTests: XCTestCase {
         }
         print(cityGraph.edgesToVertices(edges: result))
     }
-    
+
     func testDFS2() {
         // Boston -> LA
         let result = cityGraph.dfs(from: "Boston", to: "Los Angeles")
@@ -114,11 +114,11 @@ class SwiftGraphSearchTests: XCTestCase {
         }
         print(cityGraph.edgesToVertices(edges: result))
     }
-    
+
     func testDFS3() {
         // Houston -> first city starting with "N"
         let result = cityGraph2.dfs(from: "Houston") { v in
-            return v.first == "N"
+            v.first == "N"
         }
         XCTAssertFalse(result.isEmpty, "Couldn't find connection between Houston and a city starting with N (there is one).")
         if let last = result.last {
@@ -129,7 +129,7 @@ class SwiftGraphSearchTests: XCTestCase {
         }
         print(cityGraph2.edgesToVertices(edges: result))
     }
-    
+
     func testDFS4() {
         // Seattle -> Miami
         let result = cityGraph2.dfs(from: "Seattle", to: "Miami")
@@ -142,7 +142,7 @@ class SwiftGraphSearchTests: XCTestCase {
         }
         print(cityGraph2.edgesToVertices(edges: result))
     }
-    
+
     func testDFS5() {
         // Boston -> LA
         let result = cityGraph2.dfs(from: "Boston", to: "Los Angeles")
@@ -155,11 +155,11 @@ class SwiftGraphSearchTests: XCTestCase {
         }
         print(cityGraph2.edgesToVertices(edges: result))
     }
-    
+
     func testDFS6() {
         // Houston -> first city starting with "N"
         let result = cityGraph2.dfs(from: "Houston") { v in
-            return v.first == "N"
+            v.first == "N"
         }
         XCTAssertFalse(result.isEmpty, "Couldn't find connection between Houston and a city starting with N (there is one).")
         if let last = result.last {
@@ -174,7 +174,7 @@ class SwiftGraphSearchTests: XCTestCase {
     func testDFSNotFound() {
         // Houston -> first city starting with "Z"
         let result = cityGraph2.dfs(from: "Houston") { v in
-            return v.first == "Z"
+            v.first == "Z"
         }
         XCTAssertTrue(result.isEmpty, "Found a city starting with Z when there's none.")
         print(cityGraph2.edgesToVertices(edges: result))
@@ -204,7 +204,7 @@ class SwiftGraphSearchTests: XCTestCase {
     func testDfsDoesntVisitTwice() {
         let g = CompleteGraph.build(withVertices: ["A", "B", "C"])
         var visitLog: [String] = []
-        _ = g.dfs(from: "A", goalTest: { (v) -> Bool in
+        _ = g.dfs(from: "A", goalTest: { v -> Bool in
             visitLog.append(v)
             return false
         })
@@ -213,20 +213,20 @@ class SwiftGraphSearchTests: XCTestCase {
 
     func testDfsInCompleteGraphWithGoalTestByIndex() {
         var visited = Array<Bool>.init(repeating: false, count: 200)
-        let graph = CompleteGraph.build(withVertices: Array(0...199))
+        let graph = CompleteGraph.build(withVertices: Array(0 ... 199))
         _ = graph.dfs(fromIndex: 0, goalTest: { i in
             visited[i] = true
             return false
         })
-        let numVisitedVertices = visited.filter({ $0 }).count
+        let numVisitedVertices = visited.filter { $0 }.count
         XCTAssertEqual(numVisitedVertices, 200, "The DFS must visit all the vertices")
     }
 
     func testDfsGoalTestOnInitialVertex() {
         var visited = false
-        let graph = CompleteGraph.build(withVertices: Array(0...3))
+        let graph = CompleteGraph.build(withVertices: Array(0 ... 3))
         _ = graph.dfs(fromIndex: 0, goalTest: { i in
-            if (i == 0) {
+            if i == 0 {
                 visited = true
             }
             return true
@@ -238,18 +238,17 @@ class SwiftGraphSearchTests: XCTestCase {
         let g = CompleteGraph.build(withVertices: ["A", "B", "C"])
         var visited: [String] = []
         _ = g.dfs(fromIndex: g.indexOfVertex("A")!,
-                  goalTest: { i in return false },
+                  goalTest: { _ in false },
                   visitOrder: { $0.sorted(by: { $0.v < $1.v }) },
                   reducer: { e in
-                    visited.append(g.vertexAtIndex(e.v))
-                    return true
-                  }
-        )
+                      visited.append(g.vertexAtIndex(e.v))
+                      return true
+                  })
         XCTAssertEqual(visited, ["C", "B"])
     }
 
     func testTraverseDfsOnCycle() {
-        let g = UnweightedGraph.withCycle( ["A", "B", "C"], directed: true)
+        let g = UnweightedGraph.withCycle(["A", "B", "C"], directed: true)
         let aIndex = g.indexOfVertex("A")!
 
         // First vertex is not fed to the reducer
@@ -257,16 +256,15 @@ class SwiftGraphSearchTests: XCTestCase {
         var visitLog = "A"
 
         let finalVertexIndex = g.traverseDfs(fromIndex: aIndex,
-                                             goalTest: { _ in visitedCound == 3},
+                                             goalTest: { _ in visitedCound == 3 },
                                              visitOrder: { $0 },
                                              reducer: {
-                                                visitLog += g.vertexAtIndex($0.v)
-                                                if $0.v == aIndex {
-                                                    visitedCound += 1
-                                                }
-                                                return true
-                                             }
-        )
+                                                 visitLog += g.vertexAtIndex($0.v)
+                                                 if $0.v == aIndex {
+                                                     visitedCound += 1
+                                                 }
+                                                 return true
+                                             })
         XCTAssertEqual(finalVertexIndex, aIndex, "The traversal must finish on vertex A")
         XCTAssertEqual(visitLog, "ABCABCA", "The cycle must be traversed twice")
     }
@@ -274,7 +272,7 @@ class SwiftGraphSearchTests: XCTestCase {
     func testFindAllDfs() {
         // New York -> all cities starting with "S"
         let result = cityGraph.findAllDfs(from: "New York") { v in
-            return v.first == "S"
+            v.first == "S"
         }
         XCTAssertFalse(result.isEmpty, "Couldn't find any connections between New York and a city starting with S (there is one).")
         XCTAssertEqual(result.count, 2, "Should be 2 cities found starting with S")
@@ -302,7 +300,7 @@ class SwiftGraphSearchTests: XCTestCase {
         XCTAssertEqual(result.count, 4, "Expect to take 4 edges to get from Seattle to Miami")
         print(cityGraph.edgesToVertices(edges: result))
     }
-    
+
     func testBFS2() {
         // Boston -> LA
         let result = cityGraph.bfs(from: "Boston", to: "Los Angeles")
@@ -316,11 +314,11 @@ class SwiftGraphSearchTests: XCTestCase {
         XCTAssertEqual(result.count, 3, "Expect to take 3 edges to get from Boston to Los Angeles")
         print(cityGraph.edgesToVertices(edges: result))
     }
-    
+
     func testBFS3() {
         // Houston -> first city starting with "N"
         let result = cityGraph.bfs(from: "Houston") { v in
-            return v.first == "N"
+            v.first == "N"
         }
         XCTAssertFalse(result.isEmpty, "Couldn't find connection between Houston and a city starting with N (there is one).")
         if let last = result.last {
@@ -331,7 +329,7 @@ class SwiftGraphSearchTests: XCTestCase {
         }
         print(cityGraph.edgesToVertices(edges: result))
     }
-    
+
     func testBFS4() {
         // Seattle -> Miami
         let result = cityGraph2.bfs(from: "Seattle", to: "Miami")
@@ -345,7 +343,7 @@ class SwiftGraphSearchTests: XCTestCase {
         XCTAssertEqual(result.count, 3, "Expect to take 3 edges to get from Seattle to Miami")
         print(cityGraph2.edgesToVertices(edges: result))
     }
-    
+
     func testBFS5() {
         // Boston -> LA
         let result = cityGraph2.bfs(from: "Boston", to: "Los Angeles")
@@ -359,11 +357,11 @@ class SwiftGraphSearchTests: XCTestCase {
         XCTAssertEqual(result.count, 4, "Expect to take 4 edges to get from Boston to Los Angeles")
         print(cityGraph2.edgesToVertices(edges: result))
     }
-    
+
     func testBFS6() {
         // Houston -> first city starting with "N"
         let result = cityGraph2.bfs(from: "Houston") { v in
-            return v.first == "N"
+            v.first == "N"
         }
         XCTAssertFalse(result.isEmpty, "Couldn't find connection between Houston and a city starting with N (there is one).")
         if let last = result.last {
@@ -384,7 +382,7 @@ class SwiftGraphSearchTests: XCTestCase {
             g.bfs(from: "B", to: "A"),
             g.bfs(from: "B", to: "C"),
             g.bfs(from: "C", to: "A"),
-            g.bfs(from: "C", to: "B")
+            g.bfs(from: "C", to: "B"),
         ]
 
         let allPathsHavLenght1 = paths.allSatisfy { $0.count == 1 }
@@ -394,7 +392,7 @@ class SwiftGraphSearchTests: XCTestCase {
     func testBFSNotFound() {
         // Houston -> first city starting with "Z"
         let result = cityGraph2.bfs(from: "Houston") { v in
-            return v.first == "Z"
+            v.first == "Z"
         }
         XCTAssertTrue(result.isEmpty, "Found a city starting with Z when there's none.")
         print(cityGraph2.edgesToVertices(edges: result))
@@ -402,20 +400,20 @@ class SwiftGraphSearchTests: XCTestCase {
 
     func testBfsInCompleteGraphWithGoalTestByIndex() {
         var visited = Array<Bool>.init(repeating: false, count: 200)
-        let graph = CompleteGraph.build(withVertices: Array(0...199))
+        let graph = CompleteGraph.build(withVertices: Array(0 ... 199))
         _ = graph.bfs(fromIndex: 0, goalTest: { i in
             visited[i] = true
             return false
         })
-        let numVisitedVertices = visited.filter({ $0 }).count
+        let numVisitedVertices = visited.filter { $0 }.count
         XCTAssertEqual(numVisitedVertices, 200, "The BFS must visit all the vertices")
     }
 
     func testBfsGoalTestOnInitialVertex() {
         var visited = false
-        let graph = CompleteGraph.build(withVertices: Array(0...3))
+        let graph = CompleteGraph.build(withVertices: Array(0 ... 3))
         _ = graph.bfs(fromIndex: 0, goalTest: { i in
-            if (i == 0) {
+            if i == 0 {
                 visited = true
             }
             return true
@@ -427,18 +425,17 @@ class SwiftGraphSearchTests: XCTestCase {
         let g = CompleteGraph.build(withVertices: ["A", "B", "C"])
         var visited: [String] = []
         _ = g.bfs(fromIndex: g.indexOfVertex("A")!,
-                  goalTest: { i in return false },
+                  goalTest: { _ in false },
                   visitOrder: { $0.sorted(by: { $0.v < $1.v }) },
                   reducer: { e in
-                    visited.append(g.vertexAtIndex(e.v))
-                    return true
-                  }
-        )
+                      visited.append(g.vertexAtIndex(e.v))
+                      return true
+                  })
         XCTAssertEqual(visited, ["B", "C"])
     }
 
     func testTraverseBfsOnCycle() {
-        let g = UnweightedGraph.withCycle( ["A", "B", "C"], directed: true)
+        let g = UnweightedGraph.withCycle(["A", "B", "C"], directed: true)
         let aIndex = g.indexOfVertex("A")!
 
         // First vertex is not fed to the reducer
@@ -446,24 +443,23 @@ class SwiftGraphSearchTests: XCTestCase {
         var visitLog = "A"
 
         let finalVertexIndex = g.traverseBfs(fromIndex: aIndex,
-                                             goalTest: { _ in visitedCound == 3},
+                                             goalTest: { _ in visitedCound == 3 },
                                              visitOrder: { $0 },
                                              reducer: {
-                                                visitLog += g.vertexAtIndex($0.v)
-                                                if $0.v == aIndex {
-                                                    visitedCound += 1
-                                                }
-                                                return true
-        }
-        )
+                                                 visitLog += g.vertexAtIndex($0.v)
+                                                 if $0.v == aIndex {
+                                                     visitedCound += 1
+                                                 }
+                                                 return true
+                                             })
         XCTAssertEqual(finalVertexIndex, aIndex, "The traversal must finish on vertex A")
         XCTAssertEqual(visitLog, "ABCABCA", "The cycle must be traversed twice")
     }
-    
+
     func testFindAllBfs() {
         // New York -> all cities starting with "S"
         let result = cityGraph.findAllBfs(from: "New York") { v in
-            return v.first == "S"
+            v.first == "S"
         }
         XCTAssertFalse(result.isEmpty, "Couldn't find any connections between New York and a city starting with S (there is one).")
         XCTAssertEqual(result.count, 2, "Should be 2 cities found starting with S")

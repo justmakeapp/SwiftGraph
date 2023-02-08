@@ -16,13 +16,13 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class ConstructorsTests: XCTestCase {
     func testStarGraphConstructor() {
         let center = 0
-        let leafs = Array(1...9)
+        let leafs = Array(1 ... 9)
         let vertices = [center] + leafs
 
         let g = StarGraph<Int>.build(withCenter: center, andLeafs: leafs)
@@ -39,7 +39,7 @@ class ConstructorsTests: XCTestCase {
     }
 
     func testCompleteGraphConstructor() {
-        let vertices = Array(0...9)
+        let vertices = Array(0 ... 9)
         let g = CompleteGraph<Int>.build(withVertices: vertices)
         for i in vertices {
             XCTAssertEqual((g.neighborsForIndex(i) + [i]).sorted(), vertices, "A complete graph must have each vertex connected to all vertices except itself.")

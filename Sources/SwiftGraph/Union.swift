@@ -17,8 +17,8 @@
 //  limitations under the License.
 
 // MARK: - Extension to UniqueVerticesGraph with Union initializer
+
 public extension UniqueElementsGraph where E == UnweightedEdge {
-    
     /// Creates a new UniqueVerticesGraph that is the union of several UniqueVerticesGraphs.
     ///
     /// This operation is commutative in the sense that g1 ∪ g2 has the same vertices and edges
@@ -29,7 +29,7 @@ public extension UniqueElementsGraph where E == UnweightedEdge {
     ///
     /// - Parameters:
     ///   - graphs: Array of graphs to build the union from.
-    static func unionOf(_ graphs: [UniqueElementsGraph]) -> UniqueElementsGraph{
+    static func unionOf(_ graphs: [UniqueElementsGraph]) -> UniqueElementsGraph {
         let union = UniqueElementsGraph()
 
         guard let firstGraph = graphs.first else { return union }
@@ -60,7 +60,7 @@ public extension UniqueElementsGraph where E == UnweightedEdge {
         return union
     }
 
-    static func unionOf(_ graphs: UniqueElementsGraph...) -> UniqueElementsGraph{
+    static func unionOf(_ graphs: UniqueElementsGraph...) -> UniqueElementsGraph {
         return unionOf(graphs)
     }
 }

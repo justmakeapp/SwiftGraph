@@ -16,11 +16,10 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
-
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -32,7 +31,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueVertexAfterInit() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Atlanta"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Atlanta"])
         XCTAssertEqual(g.vertices, ["Atlanta"], "Expected one vertex")
     }
 
@@ -44,9 +43,9 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
         _ = g.addVertex("Atlanta")
         XCTAssertEqual(g.vertices, ["Atlanta"], "Expected one vertex")
     }
-    
+
     func testUniqueUndirectedEdges() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Chicago"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", directed: false)
         g.addEdge(from: "Atlanta", to: "Chicago", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago"), "Expected an edge from Atlanta to Chicago")
@@ -55,7 +54,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueUndirectedEdges2() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Boston", "Chicago"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Boston", "Chicago"])
         g.addEdge(from: "Chicago", to: "Boston", directed: false)
         g.addEdge(from: "Atlanta", to: "Chicago", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago"), "Expected an edge from Atlanta to Chicago")
@@ -66,7 +65,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueUndirectedLoop() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta"])
         g.addEdge(from: "Atlanta", to: "Atlanta", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta"), "Expected an edge from Atlanta to Atlanta")
         XCTAssertEqual(g.edgeCount, 1, "Expect one edge")
@@ -76,7 +75,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueUndirectedLoop2() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Boston"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Boston"])
         g.addEdge(from: "Atlanta", to: "Boston", directed: false)
         g.addEdge(from: "Atlanta", to: "Atlanta", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta"), "Expected an edge from Atlanta to Atlanta")
@@ -87,7 +86,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueDirectedEdges() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Chicago"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", directed: true)
         g.addEdge(from: "Atlanta", to: "Chicago", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago"), "Expected an edge from Atlanta to Chicago")
@@ -95,7 +94,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueDirectedLoop() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta"])
         g.addEdge(from: "Atlanta", to: "Atlanta", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta"), "Expected an edge from Atlanta to Atlanta")
         XCTAssertEqual(g.edgeCount, 1, "Expected one edges")
@@ -105,7 +104,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueDirectedLoop2() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Boston"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Boston"])
         g.addEdge(from: "Atlanta", to: "Boston", directed: true)
         g.addEdge(from: "Atlanta", to: "Atlanta", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Atlanta"), "Expected an edge from Atlanta to Atlanta")
@@ -114,9 +113,9 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
         g.addEdge(from: "Atlanta", to: "Atlanta", directed: true)
         XCTAssertEqual(g.edgeCount, 2, "Expected one edges")
     }
-    
+
     func testUniqueEdgesCombined1() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Chicago"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", directed: true)
         g.addEdge(from: "Atlanta", to: "Chicago", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago"), "Expected an edge from Atlanta to Chicago")
@@ -125,7 +124,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueEdgesCombined2() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Chicago"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", directed: true)
         g.addEdge(from: "Chicago", to: "Atlanta", directed: false)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago"), "Expected an edge from Atlanta to Chicago")
@@ -134,7 +133,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueEdgesCombined3() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Chicago"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", directed: false)
         g.addEdge(from: "Atlanta", to: "Chicago", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago"), "Expected an edge from Atlanta to Chicago")
@@ -143,7 +142,7 @@ class UnweightedUniqueElementsGraphHashableTests: XCTestCase {
     }
 
     func testUniqueEdgesCombined4() {
-        let g = UnweightedUniqueElementsGraph<String>(vertices:["Atlanta", "Chicago"])
+        let g = UnweightedUniqueElementsGraph<String>(vertices: ["Atlanta", "Chicago"])
         g.addEdge(from: "Atlanta", to: "Chicago", directed: false)
         g.addEdge(from: "Chicago", to: "Atlanta", directed: true)
         XCTAssertTrue(g.edgeExists(from: "Atlanta", to: "Chicago"), "Expected an edge from Atlanta to Chicago")

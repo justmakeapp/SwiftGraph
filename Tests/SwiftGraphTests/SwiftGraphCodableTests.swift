@@ -16,12 +16,12 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 @testable import SwiftGraph
+import XCTest
 
 class SwiftGraphCodableTests: XCTestCase {
     var expectedUnweightedGraph: UnweightedGraph<String> {
-        var g: UnweightedGraph<String> = UnweightedGraph<String>()
+        var g = UnweightedGraph<String>()
         _ = g.addVertex("Atlanta")
         _ = g.addVertex("New York")
         _ = g.addVertex("Miami")
@@ -31,14 +31,14 @@ class SwiftGraphCodableTests: XCTestCase {
         g.removeVertex("Atlanta")
         return g
     }
-    
+
     let expectedString = """
-     {"edges":[[{"u":0,"v":1,"directed":false}],[{"u":1,"v":0,"directed":false}]],"vertices":["New York","Miami"]}
-     """
-    
+    {"edges":[[{"u":0,"v":1,"directed":false}],[{"u":1,"v":0,"directed":false}]],"vertices":["New York","Miami"]}
+    """
+
     func testEncodableDecodable() {
         let g = expectedUnweightedGraph
-        
+
         do {
             _ = try JSONEncoder().encode(g)
         } catch {
@@ -50,7 +50,7 @@ class SwiftGraphCodableTests: XCTestCase {
             XCTFail("Unable to serialize expected JSON string into Data")
             return
         }
-        
+
         let g2: UnweightedGraph<String>
         do {
             g2 = try JSONDecoder().decode(UnweightedGraph<String>.self, from: jsonData2)
@@ -92,11 +92,11 @@ extension SwiftGraphCodableTests {
             SwiftGraphCodableTests_Vertex(int: 8, string: "Atlanta"),
             SwiftGraphCodableTests_Vertex(int: 9, string: "Miami"),
             SwiftGraphCodableTests_Vertex(int: 10, string: "Dallas"),
-            SwiftGraphCodableTests_Vertex(int: 11, string: "Houston")
-            ])
-        
+            SwiftGraphCodableTests_Vertex(int: 11, string: "Houston"),
+        ])
+
         let vertexWithName = { (name: String) -> SwiftGraphCodableTests_Vertex in
-            return result.vertices.filter({ $0.string == name }).first!
+            result.vertices.filter { $0.string == name }.first!
         }
         // pg 1062 Liang
         result.addEdge(from: vertexWithName("Seattle"), to: vertexWithName("Chicago"), weight: 2097)
@@ -122,21 +122,20 @@ extension SwiftGraphCodableTests {
         result.addEdge(from: vertexWithName("Atlanta"), to: vertexWithName("Miami"), weight: 661)
         result.addEdge(from: vertexWithName("Houston"), to: vertexWithName("Miami"), weight: 1187)
         result.addEdge(from: vertexWithName("Houston"), to: vertexWithName("Dallas"), weight: 239)
-        
+
         return result
     }
-    
-    
+
     func validateDijkstra1(cityGraph: WeightedGraph<SwiftGraphCodableTests_Vertex, Int>) {
         let vertexWithName = { (name: String) -> SwiftGraphCodableTests_Vertex in
-            return cityGraph.vertices.filter({ $0.string == name }).first!
+            cityGraph.vertices.filter { $0.string == name }.first!
         }
-        
+
         // Seattle -> Miami
         let (distances, pathDict) = cityGraph.dijkstra(root: vertexWithName("New York"), startDistance: 0)
         XCTAssertFalse(distances.isEmpty, "Dijkstra result set is empty.")
-        
-        //create map of distances to city names
+
+        // create map of distances to city names
         let nameDistance: [SwiftGraphCodableTests_Vertex: Int?] = distanceArrayToVertexDict(distances: distances, graph: cityGraph)
         if let temp = nameDistance[vertexWithName("San Francisco")] {
             XCTAssertEqual(temp!, 3057, "San Francisco should be 3057 miles away.")
@@ -196,8 +195,8 @@ extension SwiftGraphCodableTests {
         for (key, value) in nameDistance {
             print("\(key) : \(String(describing: value))")
         }
-        
-        //path between New York and San Francisco
+
+        // path between New York and San Francisco
         let path: [WeightedEdge<Int>] = pathDictToPath(from: cityGraph.indexOfVertex(vertexWithName("New York"))!, to: cityGraph.indexOfVertex(vertexWithName("San Francisco"))!, pathDict: pathDict)
         let stops: [SwiftGraphCodableTests_Vertex] = cityGraph.edgesToVertices(edges: path)
         print("\(stops))")
@@ -205,15 +204,15 @@ extension SwiftGraphCodableTests {
             SwiftGraphCodableTests_Vertex(int: 7, string: "New York"),
             SwiftGraphCodableTests_Vertex(int: 5, string: "Chicago"),
             SwiftGraphCodableTests_Vertex(int: 3, string: "Denver"),
-            SwiftGraphCodableTests_Vertex(int: 1, string: "San Francisco")
-            ], "Atlanta should be 888 miles away.")
-        //println(edgesToVertices(result, cityGraph))  // not sure why description not called by println
+            SwiftGraphCodableTests_Vertex(int: 1, string: "San Francisco"),
+        ], "Atlanta should be 888 miles away.")
+        // println(edgesToVertices(result, cityGraph))  // not sure why description not called by println
     }
-    
+
     func testComplexWeightedEncodableDecodable() {
-        let g = self.cityGraph()
-        self.validateDijkstra1(cityGraph: g)
-        
+        let g = cityGraph()
+        validateDijkstra1(cityGraph: g)
+
         let jsonData: Data
         do {
             jsonData = try JSONEncoder().encode(g)
@@ -227,7 +226,7 @@ extension SwiftGraphCodableTests {
             XCTFail("Unable to serialize expected JSON string into Data")
             return
         }
-        
+
         let g2: WeightedGraph<SwiftGraphCodableTests_Vertex, Int>
         do {
             g2 = try JSONDecoder().decode(WeightedGraph<SwiftGraphCodableTests_Vertex, Int>.self, from: jsonData2)
@@ -235,7 +234,7 @@ extension SwiftGraphCodableTests {
             XCTFail("JSONDecoder().decode(WeightedGraph<SwiftGraphCodableTests_Vertex, Int>.self, from: jsonData) threw: \(error)")
             return
         }
-        self.validateDijkstra1(cityGraph: g2)
+        validateDijkstra1(cityGraph: g2)
         //        XCTAssertEqual(g, self.cityGraph())
     }
 }

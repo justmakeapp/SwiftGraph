@@ -16,11 +16,10 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-
 public protocol WeightedEdgeProtocol {
     associatedtype Weight: Equatable
 
-    init(u: Int, v: Int, directed:Bool, weight: Weight)
+    init(u: Int, v: Int, directed: Bool, weight: Weight)
     var weight: Weight { get }
 }
 
@@ -29,12 +28,12 @@ extension WeightedEdge: WeightedEdgeProtocol {
 }
 
 /// A weighted edge, who's weight subscribes to Comparable.
-public struct WeightedEdge<W: Equatable & Codable>: Edge, CustomStringConvertible, Equatable {
+public struct WeightedEdge<W: Equatable>: Edge, CustomStringConvertible, Equatable {
     public var u: Int
     public var v: Int
     public var directed: Bool
     public var weight: W
-    
+
     public init(u: Int, v: Int, directed: Bool, weight: W) {
         self.u = u
         self.v = v
@@ -46,20 +45,22 @@ public struct WeightedEdge<W: Equatable & Codable>: Edge, CustomStringConvertibl
         return WeightedEdge(u: v, v: u, directed: directed, weight: weight)
     }
 
-    //Implement Printable protocol
+    // Implement Printable protocol
     public var description: String {
         return "\(u) \(weight)> \(v)"
     }
-    
-    //MARK: Operator Overloads
-    static public func == <W>(lhs: WeightedEdge<W>, rhs: WeightedEdge<W>) -> Bool {
+
+    // MARK: Operator Overloads
+
+    public static func == <W>(lhs: WeightedEdge<W>, rhs: WeightedEdge<W>) -> Bool {
         return lhs.u == rhs.u && lhs.v == rhs.v && lhs.weight == rhs.weight
     }
-
 }
 
 extension WeightedEdge: Comparable where W: Comparable {
-    static public func < (lhs: WeightedEdge, rhs: WeightedEdge) -> Bool {
+    public static func < (lhs: WeightedEdge, rhs: WeightedEdge) -> Bool {
         return lhs.weight < rhs.weight
     }
 }
+
+extension WeightedEdge: Codable where W: Codable {}

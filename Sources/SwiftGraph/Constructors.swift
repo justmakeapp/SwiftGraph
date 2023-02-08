@@ -18,8 +18,7 @@
 
 /// A type used to construct an UnweightedGraph with vertices of type V that is isomorphic to a star graph.
 /// https://en.wikipedia.org/wiki/Star_(graph_theory)
-public enum StarGraph<V: Equatable & Codable> {
-
+public enum StarGraph<V: Equatable> {
     /// Constructs an undirected UnweightedGraph isomorphic to a star graph.
     ///
     /// - Parameters:
@@ -31,18 +30,16 @@ public enum StarGraph<V: Equatable & Codable> {
         let g = UnweightedGraph<V>(vertices: [center] + leafs)
 
         guard leafs.count > 0 else { return g }
-        for i in 1...leafs.count {
+        for i in 1 ... leafs.count {
             g.addEdge(fromIndex: 0, toIndex: i)
         }
         return g
     }
 }
 
-
 /// A type used to construct UnweightedGraph with vertices of type V that is isomorphic to a complete graph.
 /// https://en.wikipedia.org/wiki/Complete_graph
-public enum CompleteGraph<V: Equatable & Codable> {
-
+public enum CompleteGraph<V: Equatable> {
     /// Constructs an undirected UnweightedGraph isomorphic to a complete graph.
     ///
     /// - Parameter vertices: The set of vertices of the graph.
@@ -50,8 +47,8 @@ public enum CompleteGraph<V: Equatable & Codable> {
     public static func build(withVertices vertices: [V]) -> UnweightedGraph<V> {
         let g = UnweightedGraph<V>(vertices: vertices)
 
-        for i in 0..<vertices.count {
-            for j in 0..<i {
+        for i in 0 ..< vertices.count {
+            for j in 0 ..< i {
                 g.addEdge(fromIndex: i, toIndex: j)
             }
         }

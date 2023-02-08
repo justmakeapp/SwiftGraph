@@ -16,11 +16,10 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-import XCTest
 import SwiftGraph
+import XCTest
 
 class EdgeListTests: XCTestCase {
-
     func testSingleDirectedEdgeList() {
         let g = UnweightedGraph(vertices: ["A", "B"])
         g.addEdge(from: "A", to: "B", directed: true)
@@ -51,7 +50,7 @@ class EdgeListTests: XCTestCase {
         g.addEdge(from: "A", to: "B", directed: false)
         XCTAssertEqual(g.edgeList(), [
             UnweightedEdge(u: 0, v: 1, directed: true),
-            UnweightedEdge(u: 0, v: 1, directed: false)
+            UnweightedEdge(u: 0, v: 1, directed: false),
         ])
     }
 
@@ -61,7 +60,7 @@ class EdgeListTests: XCTestCase {
         g.addEdge(from: "A", to: "A", directed: false)
         XCTAssertEqual(g.edgeList(), [
             UnweightedEdge(u: 0, v: 0, directed: true),
-            UnweightedEdge(u: 0, v: 0, directed: false)
+            UnweightedEdge(u: 0, v: 0, directed: false),
         ])
     }
 
@@ -71,7 +70,7 @@ class EdgeListTests: XCTestCase {
         g.addEdge(from: "A", to: "B", directed: true)
         XCTAssertEqual(g.edgeList(), [
             UnweightedEdge(u: 0, v: 1, directed: true),
-            UnweightedEdge(u: 0, v: 1, directed: true)
+            UnweightedEdge(u: 0, v: 1, directed: true),
         ])
 
         let g2 = UnweightedGraph(vertices: ["A", "B"])
@@ -79,7 +78,7 @@ class EdgeListTests: XCTestCase {
         g2.addEdge(from: "B", to: "A", directed: true)
         XCTAssertEqual(g2.edgeList(), [
             UnweightedEdge(u: 0, v: 1, directed: true),
-            UnweightedEdge(u: 1, v: 0, directed: true)
+            UnweightedEdge(u: 1, v: 0, directed: true),
         ])
     }
 
@@ -89,7 +88,7 @@ class EdgeListTests: XCTestCase {
         g.addEdge(from: "A", to: "A", directed: true)
         XCTAssertEqual(g.edgeList(), [
             UnweightedEdge(u: 0, v: 0, directed: true),
-            UnweightedEdge(u: 0, v: 0, directed: true)
+            UnweightedEdge(u: 0, v: 0, directed: true),
         ])
     }
 
@@ -99,7 +98,7 @@ class EdgeListTests: XCTestCase {
         g.addEdge(from: "A", to: "B", directed: false)
         XCTAssertEqual(g.edgeList(), [
             UnweightedEdge(u: 0, v: 1, directed: false),
-            UnweightedEdge(u: 0, v: 1, directed: false)
+            UnweightedEdge(u: 0, v: 1, directed: false),
         ])
     }
 
@@ -109,7 +108,7 @@ class EdgeListTests: XCTestCase {
         g.addEdge(from: "A", to: "A", directed: false)
         XCTAssertEqual(g.edgeList(), [
             UnweightedEdge(u: 0, v: 0, directed: false),
-            UnweightedEdge(u: 0, v: 0, directed: false)
+            UnweightedEdge(u: 0, v: 0, directed: false),
         ])
     }
 

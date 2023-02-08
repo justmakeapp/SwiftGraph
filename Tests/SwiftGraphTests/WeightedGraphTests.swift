@@ -6,11 +6,10 @@
 //  Copyright © 2019 Oak Snow Consulting. All rights reserved.
 //
 
-import XCTest
 import SwiftGraph
+import XCTest
 
 class WeightedGraphTests: XCTestCase {
-
     func testEdgeExists() {
         let g = WeightedGraph<String, String>(vertices: ["A", "B"])
         g.addEdge(from: "A", to: "B", weight: "AB", directed: true)
