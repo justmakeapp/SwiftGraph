@@ -10,11 +10,15 @@ let package = Package(
             targets: ["SwiftGraph"]
         ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-collections", from: "1.0.4"),
+    ],
     targets: [
         .target(
             name: "SwiftGraph",
-            dependencies: []
+            dependencies: [
+                .product(name: "DequeModule", package: "swift-collections")
+            ]
         ),
         .testTarget(
             name: "SwiftGraphTests",
